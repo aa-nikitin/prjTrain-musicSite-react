@@ -3,7 +3,7 @@ import { Header, LoginForm } from '../../components/';
 
 const Login = () => {
     return (
-        <Header>
+        <Header linkMain="/">
             <LoginForm />
         </Header>
     );

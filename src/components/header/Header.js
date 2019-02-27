@@ -1,40 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Logo } from '../Logo';
+import { Socials } from '../Socials';
 
-const Header = ({ children }) => {
+const Header = ({ children, linkMain }) => {
     return (
         <header className="header">
             <div className="container header__container">
                 <div className="header__top">
-                    <Link className="header__text title-name" to="/">
-                        Архипов<span className="title-name__doter">.</span>
-                    </Link>
+                    <Logo linkMain={linkMain}>Архипов</Logo>
                     <div className="header__social">
-                        <ul className="social">
-                            <li className="social__item">
-                                <a className="social__link" href="http://">
-                                    <i className="fa fa-linkedin" />
-                                </a>
-                            </li>
-                            <li className="social__item">
-                                <a className="social__link" href="http://">
-                                    <i className="fa fa-github-alt" />
-                                </a>
-                            </li>
-                            <li className="social__item">
-                                <a className="social__link" href="http://">
-                                    <i className="fa fa-tumblr" />
-                                </a>
-                            </li>
-                            <li className="social__item">
-                                <a
-                                    className="social__link"
-                                    href="https://vk.com/feed"
-                                >
-                                    <i className="fa fa-vk" />
-                                </a>
-                            </li>
-                        </ul>
+                        <Socials />
                     </div>
                 </div>
                 {children}

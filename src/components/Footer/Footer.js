@@ -1,38 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Logo } from '../Logo';
+import { Socials } from '../Socials';
 
 const Footer = () => {
     return (
         <footer className="footer">
             <div className="container footer__container">
                 <div className="footer__auth">
-                    <Link className="title-name" to="/login">
-                        Авторизация<span className="title-name__doter">.</span>
-                    </Link>
+                    <Logo linkMain="/login">Авторизация</Logo>
                 </div>
                 <div className="footer__social">
-                    <ul className="social">
-                        <li className="social__item">
-                            <a className="social__link" href="http://">
-                                <i className="fa fa-linkedin" />
-                            </a>
-                        </li>
-                        <li className="social__item">
-                            <a className="social__link" href="http://">
-                                <i className="fa fa-github-alt" />
-                            </a>
-                        </li>
-                        <li className="social__item">
-                            <a className="social__link" href="http://">
-                                <i className="fa fa-tumblr" />
-                            </a>
-                        </li>
-                        <li className="social__item">
-                            <a className="social__link" href="http://">
-                                <i className="fa fa-vk" />
-                            </a>
-                        </li>
-                    </ul>
+                    <Socials />
                 </div>
             </div>
         </footer>
