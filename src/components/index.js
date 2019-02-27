@@ -7,3 +7,4 @@ export { Footer } from './Footer/';
 export { LoginForm } from './LoginForm/';
 export { AdminHeader } from './AdminHeader/';
 export { AdminContent } from './AdminContent/';
+export { PrivateRoute } from './PrivateRoute/';

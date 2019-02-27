@@ -6,7 +6,7 @@ import {
     Products,
     OrderMain,
     Footer
-} from '../../components/';
+} from '../components/';
 
 const Main = () => {
     return (
@@ -36,4 +36,4 @@ const Main = () => {
     );
 };
 
-export default Main;
+export { Main };

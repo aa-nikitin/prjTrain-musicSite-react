@@ -1,5 +1,5 @@
 import React from 'react';
-import { AdminHeader, AdminContent } from '../../components/';
+import { AdminHeader, AdminContent } from '../components/';
 
 const Admin = () => {
     return (
@@ -10,4 +10,4 @@ const Admin = () => {
     );
 };
 
-export default Admin;
+export { Admin };

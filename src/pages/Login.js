@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header, LoginForm } from '../../components/';
+import { Header, LoginForm } from '../components/';
 
 const Login = () => {
     return (
@@ -9,4 +9,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export { Login };
