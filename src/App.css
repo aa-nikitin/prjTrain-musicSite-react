@@ -62,6 +62,7 @@ body {
     width: 180px;
     padding: 20px 35px;
     font-size: 14px;
+    outline: none;
 }
 .button:hover {
     background-color: #d49658;
@@ -330,7 +331,8 @@ body {
 }
 .form-email {
     width: 65%;
-    margin: 0 auto 75px;
+    margin: 55px auto 0;
+    padding-bottom: 75px;
 }
 .form-email__line {
     display: -webkit-box;
@@ -744,4 +746,27 @@ a.title-name:hover {
 }
 .form-upload__input-line--btn {
     margin-top: auto;
+}
+
+#modal {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-form {
+    background: #fff;
+    padding: 50px;
+    border-radius: 10px;
+}
+
+.modal-form__button {
+    margin-top: 40px;
 }

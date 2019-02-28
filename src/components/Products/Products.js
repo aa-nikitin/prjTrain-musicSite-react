@@ -1,19 +1,8 @@
 import React from 'react';
 import productPhoto from '../../assets/img/products/Work1.jpg';
+import { withData } from '../../context/';
 
-const products = [
-    { id: 1, name: 'Вино вдохновение', price: 100 },
-    { id: 2, name: 'Вино вдохновение', price: 200 },
-    { id: 3, name: 'Вино вдохновение', price: 300 },
-    { id: 4, name: 'Вино вдохновение', price: 400 },
-    { id: 5, name: 'Вино вдохновение', price: 500 },
-    { id: 6, name: 'Вино вдохновение', price: 600 },
-    { id: 7, name: 'Вино вдохновение', price: 700 },
-    { id: 8, name: 'Вино вдохновение', price: 800 },
-    { id: 9, name: 'Вино вдохновение', price: 900 }
-];
-
-const Products = () => {
+const ForProducts = ({ products }) => {
     return (
         <section className="product">
             <div className="container">
@@ -46,4 +35,7 @@ const Products = () => {
         </section>
     );
 };
+
+const Products = withData(ForProducts);
+
 export { Products };

@@ -8,3 +8,6 @@ export { LoginForm } from './LoginForm/';
 export { AdminHeader } from './AdminHeader/';
 export { AdminContent } from './AdminContent/';
 export { PrivateRoute } from './PrivateRoute/';
+export { AdminCounters } from './AdminCounters/';
+export { AdminProducts } from './AdminProducts/';
+export { Modal } from './Modal/';

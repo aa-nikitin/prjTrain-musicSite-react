@@ -1,13 +1,7 @@
 import React from 'react';
+import { withData } from '../../context/';
 
-const myNumber = [
-    { id: 1, name: 'Возраст начала занятий на скрипке', count: 12 },
-    { id: 2, name: 'Концертов отыграл', count: 23 },
-    { id: 3, name: 'Максимальное число городов в туре', count: 91 },
-    { id: 4, name: 'Лет на сцене в качестве скрипача', count: 41 }
-];
-
-const MyNumbers = () => {
+const ForMyNumbers = ({ myNumber }) => {
     return (
         <section className="life">
             <div className="container life__container">
@@ -33,4 +27,7 @@ const MyNumbers = () => {
         </section>
     );
 };
+
+const MyNumbers = withData(ForMyNumbers);
+
 export { MyNumbers };

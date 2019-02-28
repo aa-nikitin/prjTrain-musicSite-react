@@ -2,7 +2,7 @@ import React from 'react';
 import { Logo } from '../Logo';
 import { Socials } from '../Socials';
 
-const Header = ({ children, linkMain }) => {
+const Header = ({ children, linkMain, socials }) => {
     return (
         <header className="header">
             <div className="container header__container">
@@ -18,4 +18,5 @@ const Header = ({ children, linkMain }) => {
     );
 };
 // export default Header;
+
 export { Header };

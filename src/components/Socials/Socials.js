@@ -1,13 +1,7 @@
 import React from 'react';
+import { withData } from '../../context/';
 
-const socials = [
-    { icon: 'linkedin', link: '#' },
-    { icon: 'github-alt', link: '#' },
-    { icon: 'tumblr', link: '#' },
-    { icon: 'vk', link: '#' }
-];
-
-const Socials = () => {
+const ForSocials = ({ socials }) => {
     return (
         <ul className="social">
             {socials.map(item => (
@@ -20,5 +14,7 @@ const Socials = () => {
         </ul>
     );
 };
+
+const Socials = withData(ForSocials);
 
 export { Socials };
