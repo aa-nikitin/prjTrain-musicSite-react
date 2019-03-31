@@ -1,28 +1,49 @@
 import React, { PureComponent } from 'react';
 import { Modal } from '../Modal';
+import { prodQuery } from '../../api';
+import { withData } from '../../context/';
 
-class AdminProducts extends PureComponent {
+class ForAdminProducts extends PureComponent {
     state = {
-        errorMessage: ''
+        errorMessage: '',
+        name: '',
+        price: ''
     };
+
+    myRef = React.createRef();
     handleChange = e => {
-        this.setState({ [e.target.name]: e.target.value });
+        if (e.target.files) {
+            this.setState({ [e.target.name]: e.target.files[0] });
+        } else this.setState({ [e.target.name]: e.target.value });
     };
     handleSubmit = e => {
         e.preventDefault();
         const { photo, name, price } = this.state;
+        const { updateProducts } = this.props;
         if (!photo || !name || !price) {
             this.setState({ errorMessage: 'Все поля нужно заполнить!' });
         } else {
-            this.setState({ errorMessage: '' });
+            prodQuery({ name: name, price: price, image: photo })
+                .then(series => {
+                    this.myRef.current.value = '';
+                    this.setState({
+                        errorMessage: series.maessage,
+                        photo: '',
+                        name: '',
+                        price: ''
+                    });
+                    updateProducts();
+                })
+                .catch(error => {
+                    console.log(error);
+                });
         }
-        console.log(this.state);
     };
     handleClose = () => {
         this.setState({ errorMessage: '' });
     };
     render() {
-        const { errorMessage } = this.state;
+        const { errorMessage, name, price } = this.state;
         return (
             <form
                 className="form-upload"
@@ -41,6 +62,7 @@ class AdminProducts extends PureComponent {
                                 className="form-upload__input-file"
                                 name="photo"
                                 type="file"
+                                ref={this.myRef}
                                 onChange={this.handleChange}
                             />
                             <span className="form-upload__input-file-title">
@@ -55,6 +77,7 @@ class AdminProducts extends PureComponent {
                         name="name"
                         type="text"
                         placeholder="Название"
+                        value={name}
                         onChange={this.handleChange}
                     />
                 </div>
@@ -64,6 +87,7 @@ class AdminProducts extends PureComponent {
                         name="price"
                         type="text"
                         placeholder="Цена"
+                        value={price}
                         onChange={this.handleChange}
                     />
                 </div>
@@ -80,5 +104,7 @@ class AdminProducts extends PureComponent {
         );
     }
 }
+
+const AdminProducts = withData(ForAdminProducts);
 
 export { AdminProducts };

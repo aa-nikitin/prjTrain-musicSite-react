@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import { getQuery } from '../api';
 
 const { Provider, Consumer } = React.createContext();
 
@@ -9,29 +10,68 @@ const socials = [
     { icon: 'vk', link: '#' }
 ];
 
-const products = [
-    { id: 1, name: 'Вино вдохновение', price: 100 },
-    { id: 2, name: 'Вино вдохновение', price: 200 },
-    { id: 3, name: 'Вино вдохновение', price: 300 },
-    { id: 4, name: 'Вино вдохновение', price: 400 },
-    { id: 5, name: 'Вино вдохновение', price: 500 },
-    { id: 6, name: 'Вино вдохновение', price: 600 },
-    { id: 7, name: 'Вино вдохновение', price: 700 },
-    { id: 8, name: 'Вино вдохновение', price: 800 },
-    { id: 9, name: 'Вино вдохновение', price: 900 }
-];
+// const myNumber = [
+//     { id: 1, name: 'Возраст начала занятий на скрипке', count: 12 },
+//     { id: 2, name: 'Концертов отыграл', count: 23 },
+//     { id: 3, name: 'Максимальное число городов в туре', count: 91 },
+//     { id: 4, name: 'Лет на сцене в качестве скрипача', count: 41 }
+// ];
 
-const myNumber = [
-    { id: 1, name: 'Возраст начала занятий на скрипке', count: 12 },
-    { id: 2, name: 'Концертов отыграл', count: 23 },
-    { id: 3, name: 'Максимальное число городов в туре', count: 91 },
-    { id: 4, name: 'Лет на сцене в качестве скрипача', count: 41 }
-];
-
-class DataProvider extends Component {
-    setValueProvider = () => {
-        return { socials, products, myNumber };
+class DataProvider extends PureComponent {
+    state = { products: [], counters: [] };
+    loadProducts = () => {
+        getQuery('getProducts')
+            .then(prosucts => {
+                this.setState({ products: prosucts.data });
+            })
+            .catch(error => {
+                console.log(error);
+            });
     };
+    loadCounters = () => {
+        getQuery('getCounters')
+            .then(counters => {
+                this.setState({ counters: counters.data });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
+    componentDidMount() {
+        this.loadCounters();
+        this.loadProducts();
+    }
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     // console.log('shouldComponentUpdate(nextProps, nextState)');
+    //     // console.log(nextState, nextProps);
+    //     // console.log('----');
+    //     if (
+    //         nextState.products.length === 0 ||
+    //         nextState.counters.length === 0
+    //     ) {
+    //         return false;
+    //     } else {
+    //         return true;
+    //     }
+    // }
+    updateProducts = () => {
+        this.loadProducts();
+    };
+    updateCount = () => {
+        this.loadCounters();
+    };
+    setValueProvider = () => {
+        const { products, counters } = this.state;
+        return {
+            socials,
+            products,
+            counters,
+            updateProducts: this.updateProducts,
+            updateCount: this.updateCount,
+            loadCounters: this.loadCounters
+        };
+    };
+
     render() {
         const { children } = this.props;
 
@@ -40,7 +80,7 @@ class DataProvider extends Component {
 }
 
 const withData = WrapperComponent => {
-    return class extends Component {
+    return class extends PureComponent {
         render() {
             return (
                 <Consumer>

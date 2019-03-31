@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
 import { Modal } from '../Modal';
+import { updateCounters } from '../../api';
+import { withData } from '../../context/';
 
-class AdminCounters extends PureComponent {
+class ForAdminCounters extends PureComponent {
     state = {
         errorMessage: ''
     };
@@ -11,20 +13,36 @@ class AdminCounters extends PureComponent {
     handleSubmit = e => {
         e.preventDefault();
         const { age, concerts, cities, years } = this.state;
-
+        const { updateCount } = this.props;
         if (age >= 0 && concerts >= 0 && cities >= 0 && years >= 0) {
             this.setState({ errorMessage: '' });
+            const arrCounter = [
+                { name: 'age', count: age },
+                { name: 'concerts', count: concerts },
+                { name: 'cities', count: cities },
+                { name: 'years', count: years }
+            ];
+            updateCounters(arrCounter)
+                .then(series => {
+                    this.setState({
+                        errorMessage: series.maessage
+                    });
+                    updateCount();
+                })
+                .catch(error => {
+                    console.log(error);
+                });
         } else {
             this.setState({
                 errorMessage: 'Все поля должны быть целым числом >=0!'
             });
         }
-        console.log(this.state);
     };
     handleClose = () => {
         this.setState({ errorMessage: '' });
     };
     render() {
+        const { counters } = this.props;
         const { errorMessage } = this.state;
         return (
             <form className="form-skill" action="/admin/skills" method="POST">
@@ -32,46 +50,24 @@ class AdminCounters extends PureComponent {
                     <Modal onClose={this.handleClose}>{errorMessage}</Modal>
                 )}
                 <div className="form-title">Счетчики</div>
-                <label className="form-skill__input-line">
-                    <span className="form-skill__input-title">Возраст</span>
-                    <input
-                        className="form-skill__input"
-                        name="age"
-                        type="number"
-                        onChange={this.handleChange}
-                    />
-                </label>
-                <label className="form-skill__input-line">
-                    <span className="form-skill__input-title">Концертов</span>
-                    <input
-                        className="form-skill__input"
-                        name="concerts"
-                        type="number"
-                        onChange={this.handleChange}
-                    />
-                </label>
-                <label className="form-skill__input-line">
-                    <span className="form-skill__input-title">
-                        Число городов
-                    </span>
-                    <input
-                        className="form-skill__input"
-                        name="cities"
-                        type="number"
-                        onChange={this.handleChange}
-                    />
-                </label>
-                <label className="form-skill__input-line">
-                    <span className="form-skill__input-title">
-                        Лет на сцене
-                    </span>
-                    <input
-                        className="form-skill__input"
-                        name="years"
-                        type="number"
-                        onChange={this.handleChange}
-                    />
-                </label>
+                {counters.map(item => {
+                    return (
+                        <label
+                            key={item._id}
+                            className="form-skill__input-line"
+                        >
+                            <span className="form-skill__input-title">
+                                {item.head}
+                            </span>
+                            <input
+                                className="form-skill__input"
+                                name={item.name}
+                                type="number"
+                                onChange={this.handleChange}
+                            />
+                        </label>
+                    );
+                })}
                 <div className="form__btns form-skill__input-line">
                     <button
                         className="button"
@@ -85,5 +81,7 @@ class AdminCounters extends PureComponent {
         );
     }
 }
+
+const AdminCounters = withData(ForAdminCounters);
 
 export { AdminCounters };

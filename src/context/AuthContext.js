@@ -1,20 +1,45 @@
 import React, { Component } from 'react';
-
+import { postQuery } from '../api';
 const { Provider, Consumer } = React.createContext();
 
 class AuthProvider extends Component {
-    email = 'admin@mail.ru';
-    password = '123';
     state = {
         isAuthorized: false,
         errorAuth: ''
     };
-    handleAutorize = (email, password) => {
-        if (email === this.email && password === this.password) {
-            this.setState({ isAuthorized: true, errorAuth: '' });
+    errorMessage = error => {
+        if (error) {
+            this.setState({ errorAuth: error });
         } else {
-            this.setState({ errorAuth: 'Неверно введен логин или пароль' });
+            this.setState({ isAuthorized: true, errorAuth: '' });
         }
+    };
+    componentDidMount() {
+        postQuery({}, 'authFromToken')
+            .then(auth => {
+                this.errorMessage(auth.error);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+    handleAutorize = (email, password) => {
+        postQuery({ email, password }, 'login')
+            .then(auth => {
+                this.errorMessage(auth.error);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
+    handleLogout = () => {
+        postQuery({}, 'logout')
+            .then(() => {
+                this.setState({ isAuthorized: false, errorAuth: '' });
+            })
+            .catch(error => {
+                console.log(error);
+            });
     };
     setValueProvider = () => {
         const { isAuthorized, errorAuth } = this.state;
@@ -22,6 +47,7 @@ class AuthProvider extends Component {
             isAuthorized,
             errorAuth,
             handleAutorize: this.handleAutorize,
+            handleLogout: this.handleLogout,
             redirectPath: '/login'
         };
     };
